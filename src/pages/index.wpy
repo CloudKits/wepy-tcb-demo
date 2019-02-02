@@ -1,9 +1,18 @@
 <style lang="less">
+.container{
+  text-align:center;
+}
+button{
+  margin:20rpx;
+}
 </style>
 <template>
   <view class="container">
-    Hello world
+    Hello TCB
   </view>
+  <button @tap="getOpenID">getOpenID</button>
+  <button @tap="createRecord">createRecord</button>
+  <button @tap="uploadImage">uploadImage</button>
 </template>
 
 <script>
@@ -11,10 +20,52 @@
 
   export default class Index extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: 'WePY With TCB'
     }
     onLoad() {
       console.log('onLoad')
+    }
+    methods = {
+      getOpenID () {
+        wx.cloud.callFunction({
+          name: 'getOpenID'
+        }).then(res => {
+          wepy.showToast({
+            title: `openID为 ${res.result.openid}`,
+            icon: 'none'
+          })
+        })
+      },
+      createRecord () {
+        const database = wx.cloud.database()
+        const test = database.collection('test')
+        test.add({
+          data: {
+            key: 'this is value'
+          }
+        }).then(res => {
+          wepy.showToast({
+            title: `新增数据ID为 ${res._id}`,
+            icon: 'none'
+          })
+        })
+      },
+      uploadImage () {
+        wx.chooseImage({
+          number: 1,
+          success: res => {
+            wx.cloud.uploadFile({
+              cloudPath: 'tempFile',
+              filePath: res.tempFilePaths[0]
+            }).then(res => {
+              wepy.showToast({
+                title: `文件ID为 ${res.fileID}`,
+                icon: 'none'
+              })
+            })
+          }
+        })
+      }
     }
   }
 </script>

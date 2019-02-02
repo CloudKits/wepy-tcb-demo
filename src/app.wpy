@@ -12,13 +12,20 @@ export default class extends wepy.app {
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
+      navigationBarTitleText: 'WePY With TCB',
       navigationBarTextStyle: 'black'
     }
   }
 
   onLaunch() {
     console.log('on launch')
+    if (!wx.cloud) {
+      console.error('请使用 2.2.3 或以上的基础库以使用云能力')
+    } else {
+      wx.cloud.init({
+        traceUser: true
+      })
+    }
   }
 }
 </script>
