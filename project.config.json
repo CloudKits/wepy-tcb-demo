@@ -9,5 +9,6 @@
   "compileType": "miniprogram",
   "appid": "touristappid",
   "projectname": "wepy-tcb-demo",
-  "miniprogramRoot": "./dist"
+  "miniprogramRoot": "./dist",
+  "cloudfunctionRoot" :"./cloudfunctions"
 }
